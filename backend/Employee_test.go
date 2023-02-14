@@ -17,9 +17,51 @@ type Employee struct {
 	Email      string    `valid:"email~Emial is not rigth format,required~Email cannot be null"`
 	Age        uint      `valid:"numeric~Age must be number,range(18|120)~Age must be in range 1-120"`
 	Phone      string    `valid:"matches(^(0)([0-9]{9})$)~Phone must have only character and length is 10"`
+	Low string `valid:"lowercase~Lower Case Only"`
+	Upper string `valid:"uppercase~Upper Case Only"` 
 	BirthDate  time.Time `valid:"datenotfuture~BirthDate cannot be future"`
 }
+func TestUpAndDown(t *testing.T){
+	g := gomega.NewGomegaWithT(t)
+	date1 := time.Date(1999,2,5,0,0,0,0,time.Local)
+	t.Run("Lowercase",func(t *testing.T){
+	emp := Employee{
+		FirstName:  "sdfghjasdfgh",
+			MiddleName: "Aj",
+			LastName:   "kotpanyakkk",
+			Email:      "aam@mail.com",
+			Age:        20,
+			Phone:      "0624563333",
+			BirthDate:  date1,
+			Low: "HKg",
+			Upper: "PPPPP",
+	}
+	ok, err := govalidator.ValidateStruct(emp)
+	g.Expect(ok).NotTo(gomega.BeTrue())
+	g.Expect(err).ToNot(gomega.BeNil())
+	g.Expect(err.Error()).To(gomega.Equal("Lower Case Only"))
+	})
 
+	t.Run("Uppercase",func(t *testing.T){
+		emp := Employee{
+			FirstName:  "sdfghjasdfgh",
+			MiddleName: "Aj",
+			LastName:   "kotpanyakkk",
+			Email:      "aam@mail.com",
+			Age:        20,
+			Phone:      "0624563333",
+			BirthDate:  date1,
+			Low: "kkkg",
+			Upper: "lllllllluuuuuo",
+		}
+		ok,err := govalidator.ValidateStruct(emp)
+
+		g.Expect(ok).NotTo(gomega.BeTrue())
+		g.Expect(err).ToNot(gomega.BeNil())
+		g.Expect(err.Error()).To(gomega.Equal("Upper Case Only"))
+	})
+	
+}
 func Test_EmployeePass_Test(t *testing.T) {
 	date1 := time.Date(2002, 4, 27, 14, 50, 45, 659000, time.Local)
 	g := gomega.NewGomegaWithT(t)
