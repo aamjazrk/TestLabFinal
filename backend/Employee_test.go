@@ -180,7 +180,7 @@ func TestEmployeeNotvalit(t *testing.T) {
 		g.Expect(err).ToNot(gomega.BeNil())
 		g.Expect(err.Error()).To(gomega.Equal("FirstName must have only character"))
 	})
-	t.Run("LastName must be only character", func(t *testing.T) {
+	t.Run("MiddleName must be only character", func(t *testing.T) {
 		emp := Employee{
 			FirstName:  "GGdlllllllll",
 			MiddleName: "Aj11112445",
@@ -200,7 +200,7 @@ func TestEmployeeNotvalit(t *testing.T) {
 		emp := Employee{
 			FirstName:  "GGdlllllllll",
 			MiddleName: "Ajppppjjjjjj",
-			LastName:   "kotpanyalllllllll66",
+			LastName:   "kotpanyalllllllllสสสส",
 			Email:      "aam@mail.com",
 			Age:        20,
 			Phone:      "0624563333",
